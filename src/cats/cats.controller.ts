@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { TokenGuard } from './guard/token.guard';
 
 @Controller('cats')
 export class CatsController {
@@ -28,6 +38,7 @@ export class CatsController {
   }
 
   @Delete(':id')
+  @UseGuards(TokenGuard)
   remove(@Param('id') id: string) {
     return this.catsService.remove(+id);
   }
