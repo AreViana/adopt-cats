@@ -1,10 +1,13 @@
 {
   "name": "adopt-cats",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "JSConf Mexico 2021",
+  "author": "Arely Viana",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "14.18.1"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -22,11 +25,16 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^1.1.5",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/typeorm": "^8.0.2",
+    "pg": "^8.7.1",
+    "postgres": "^1.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.2.41"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
