@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { Cat } from './entities/cat.entity';
 
 @Injectable()
 export class CatsService {
-  create(createCatDto: CreateCatDto) {
-    return 'This action adds a new cat';
+  constructor(
+    @InjectRepository(Cat) private readonly catRepository: Repository<Cat>,
+  ) {}
+
+  create(createCatDto: CreateCatDto): Promise<Cat> {
+    return this.catRepository.save(createCatDto);
   }
 
-  findAll() {
-    return `This action returns all cats`;
+  findAll(): Promise<Cat[]> {
+    return this.catRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cat`;
+  async findOne(id: number): Promise<Cat> {
+    const cat = await this.catRepository.findOne(id);
+    if (!cat) throw new NotFoundException('Cat not found');
+    return cat;
   }
 
-  update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+  async update(id: number, updateCatDto: UpdateCatDto): Promise<Cat> {
+    const cat = await this.findOne(id);
+    return this.catRepository.save({ ...cat, ...updateCatDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cat`;
+  async remove(id: number) {
+    await this.catRepository.delete(id);
+    return { id };
   }
 }
